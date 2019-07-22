@@ -138,7 +138,7 @@ class WeiXin extends CI_Controller
         $access_token=$re['access_token'];
         $refresh_token=$re['refresh_token'];
         $openid=$re['openid'];
-        set_cookie($this->openid,$re['openid'],3600*24*365,'',$_SERVER['HTTP_HOST']);
+        setcookie($this->openid,$re['openid'],3600*24*365,'',$_SERVER['HTTP_HOST']);
         setcookie($key.'access_token',$access_token,7000,'/',$_SERVER['HTTP_HOST']);
         setcookie($key.'refresh_token',$refresh_token,3600*24*30,'/',$_SERVER['HTTP_HOST']);
         //通过access_token获取用户信息
