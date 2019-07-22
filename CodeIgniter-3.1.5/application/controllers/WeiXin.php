@@ -71,7 +71,7 @@ class WeiXin extends CI_Controller
             $this->load->helper('url');
             $redirect_uri=urlencode(site_url('WeiXin/authorize1'));
             $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
-            header("Location:".$url);
+            header("Location:".$url);exit;
         }
     }
 
@@ -122,7 +122,7 @@ class WeiXin extends CI_Controller
         $this->load->helper('url');
         $redirect_uri=urlencode(site_url('WeiXin/authorize2'));
         $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect';
-        header("Location:".$url);
+        header("Location:".$url);exit;
     }
     public function authorize2(){
         $appId=$this->appId;
