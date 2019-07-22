@@ -72,12 +72,18 @@ class WeiXin extends CI_Controller
     }
 
     public function authorize1(){
-        echo $_GET['code'];
+       var_dump($_GET);
     }
     /*
      *snsapi_userinfo 获取用户信息
      * */
-
+    public function getUseInfo(){
+        $appId=$this->appId;
+        $this->load->helper('url');
+        $redirect_uri=urlencode(site_url('WeiXin/authorize1'));
+        $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+        header("Location:".$url);
+    }
 
     /*
      * 自定义菜单
