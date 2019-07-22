@@ -72,7 +72,7 @@ class WeiXin extends CI_Controller
     }
 
     public function authorize1(){
-        echo 'ass';
+        echo $_GET['code'];
     }
     /*
      *snsapi_userinfo 获取用户信息
