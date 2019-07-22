@@ -18,6 +18,7 @@ class WeiXin extends CI_Controller
      * 获取access_token 和 jsapi_ticket
      * */
     public function getAccessToken(){
+        return 123;
         if(file_exists('access_token.json')){
             $res = file_get_contents('access_token.json');
             $result = json_decode($res,true);
