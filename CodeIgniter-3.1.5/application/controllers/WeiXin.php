@@ -132,6 +132,7 @@ class WeiXin extends CI_Controller
         $code=$_GET['code'];
         $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appId.'&secret='.$securet.'&code='.$code.'&grant_type=authorization_code';
         $re=$this->http_request($url);
+        echo $re;return;
         $re=json_decode($re,true);
 
         $key='changanmazida_'.$re['openid'];
