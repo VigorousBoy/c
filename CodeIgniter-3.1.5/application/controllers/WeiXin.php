@@ -66,7 +66,9 @@ class WeiXin extends CI_Controller
     public function getOpenid(){
         $appId=$this->appId;
         $this->load->helper('url');
+
         $redirect_uri=urlencode(site_url('WeiXin/getOpenid'));
+        echo  $redirect_uri;
         $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
         $this->http_request($url);
     }
