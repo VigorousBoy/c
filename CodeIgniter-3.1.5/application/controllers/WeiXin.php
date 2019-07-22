@@ -84,7 +84,7 @@ class WeiXin extends CI_Controller
        $re=$this->http_request($url);
        $re=json_decode($re,true);
        //获取当前域名
-       setcookie($this->openid,$re['openid'],3600*24*365,'/',$_SERVER['HTTP_HOST']);
+       setcookie($this->openid,$re['openid'],time()+3600*24*365,'/',$_SERVER['HTTP_HOST']);
        return json_encode(array('openid'=>$re['openid']));
     }
     /*
@@ -106,7 +106,7 @@ class WeiXin extends CI_Controller
                    $re=json_decode($re,true);
                    $key='changanmazida_'.$openid;
                    $access_token=$re['access_token'];
-                   setcookie($key.'access_token',$access_token,7000,'/',$_SERVER['HTTP_HOST']);
+                   setcookie($key.'access_token',$access_token,time()+7000,'/',$_SERVER['HTTP_HOST']);
                 }
                 return $this->getUserDtail($openid,$access_token);
             }else{
@@ -138,9 +138,9 @@ class WeiXin extends CI_Controller
         $access_token=$re['access_token'];
         $refresh_token=$re['refresh_token'];
         $openid=$re['openid'];
-        setcookie($this->openid,$re['openid'],3600*24*365,'',$_SERVER['HTTP_HOST']);
-        setcookie($key.'access_token',$access_token,7000,'/',$_SERVER['HTTP_HOST']);
-        setcookie($key.'refresh_token',$refresh_token,3600*24*30,'/',$_SERVER['HTTP_HOST']);
+        setcookie($this->openid,$re['openid'],time()+3600*24*365,'',$_SERVER['HTTP_HOST']);
+        setcookie($key.'access_token',$access_token,time()+7000,'/',$_SERVER['HTTP_HOST']);
+        setcookie($key.'refresh_token',$refresh_token,time()+3600*24*30,'/',$_SERVER['HTTP_HOST']);
         //通过access_token获取用户信息
         return $this->getUserDtail($openid,$access_token);
 
