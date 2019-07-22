@@ -72,7 +72,13 @@ class WeiXin extends CI_Controller
     }
 
     public function authorize1(){
-       var_dump($_GET);
+       $appId=$this->appId;
+       $securet=$this->securet;
+       $state=$_GET['state'];
+       $code=$_GET['code'];
+       $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appId.'&secret='.$securet.'&code='.$code.'&grant_type=authorization_code';
+       $re=$this->http_request($url);
+       return $re;
     }
     /*
      *snsapi_userinfo 获取用户信息
