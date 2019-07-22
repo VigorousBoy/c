@@ -77,8 +77,7 @@ class WeiXin extends CI_Controller
        $state=$_GET['state'];
        $code=$_GET['code'];
        $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appId.'&secret='.$securet.'&code='.$code.'&grant_type=authorization_code';
-       $re=$this->http_request($url);
-       echo 'result_'.$re;
+       return $re=$this->http_request($url);
     }
     /*
      *snsapi_userinfo 获取用户信息
@@ -86,9 +85,18 @@ class WeiXin extends CI_Controller
     public function getUseInfo(){
         $appId=$this->appId;
         $this->load->helper('url');
-        $redirect_uri=urlencode(site_url('WeiXin/authorize1'));
-        $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+        $redirect_uri=urlencode(site_url('WeiXin/authorize2'));
+        $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect';
         header("Location:".$url);
+    }
+
+    public function authorize2(){
+        $appId=$this->appId;
+        $securet=$this->securet;
+        $state=$_GET['state'];
+        $code=$_GET['code'];
+        $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appId.'&secret='.$securet.'&code='.$code.'&grant_type=authorization_code';
+        return $re=$this->http_request($url);
     }
 
     /*
