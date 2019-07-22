@@ -111,9 +111,11 @@ class WeiXin extends CI_Controller
                 }
                 return $this->getUserDtail($openid,$access_token);
             }else{
+                echo 'refresh_token'.'<br/>';
                 $this->userInfoAuthor();
             }
         }else{
+            echo 'openid'.'<br/>';
             $this->userInfoAuthor();
         }
     }
