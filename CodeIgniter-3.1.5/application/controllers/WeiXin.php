@@ -147,6 +147,7 @@ class WeiXin extends CI_Controller
     }
     public function getUserDtail($openid,$access_token){
         var_dump($_COOKIE);
+        echo $_SERVER['HTTP_HOST'];
         $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
         return $this->http_request($url);
     }
