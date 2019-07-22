@@ -91,7 +91,6 @@ class WeiXin extends CI_Controller
      *snsapi_userinfo 获取用户信息
      * */
     public function getUseInfo(){
-        var_dump($_COOKIE);
         $appId=$this->appId;
         if($_COOKIE[$this->openid]){
             $openid=$_COOKIE[$this->openid];
@@ -111,11 +110,9 @@ class WeiXin extends CI_Controller
                 }
                 return $this->getUserDtail($openid,$access_token);
             }else{
-                echo 'refresh_token'.'<br/>';
                 $this->userInfoAuthor();
             }
         }else{
-            echo 'openid'.'<br/>';
             $this->userInfoAuthor();
         }
     }
@@ -134,7 +131,7 @@ class WeiXin extends CI_Controller
         $code=$_GET['code'];
         $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appId.'&secret='.$securet.'&code='.$code.'&grant_type=authorization_code';
         $re=$this->http_request($url);
-        echo $re;return;
+
         $re=json_decode($re,true);
 
         $key='changanmazida_'.$re['openid'];
@@ -149,6 +146,7 @@ class WeiXin extends CI_Controller
 
     }
     public function getUserDtail($openid,$access_token){
+        var_dump($_COOKIE);
         $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
         return $this->http_request($url);
     }
