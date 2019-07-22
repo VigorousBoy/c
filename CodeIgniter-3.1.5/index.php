@@ -312,4 +312,7 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+
+define('ENVIRONMENT', 'development');
+error_reporting(E_ALL);
 require_once BASEPATH.'core/CodeIgniter.php';
