@@ -99,7 +99,7 @@ class WeiXin extends CI_Controller
             $access_token=isset($_COOKIE[$key.'access_token'])?$_COOKIE[$key.'access_token']:'';
             $refresh_token=isset($_COOKIE[$key.'refresh_token'])?$_COOKIE[$key.'refresh_token']:'';
             if($refresh_token){
-                if(!$access_token){
+                if($access_token){
                     //刷新access_token
                    $url='https://api.weixin.qq.com/sns/oauth2/refresh_token?appid='.$appId.'&grant_type=refresh_token&refresh_token='.$refresh_token;
                    $re=$this->http_request($url);
