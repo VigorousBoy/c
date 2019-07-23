@@ -63,13 +63,17 @@ class WeiXin extends CI_Controller
      * snsapi_base获取openid
      * */
     public function getOpenid(){
+        $third_uri=isset($_GET['redirect_uri'])?$_GET['redirect_uri']:'';
+        if($third_uri){
+            $third_uri=base64_encode($third_uri);
+        }
         if($_COOKIE[$this->openid]){
             return json_encode(array('openid'=>$_COOKIE[$this->openid]));
         }else{
             $appId=$this->appId;
             $this->load->helper('url');
             $redirect_uri=urlencode(site_url('WeiXin/authorize1'));
-            $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=123&connect_redirect=1#wechat_redirect';
+            $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state='.$third_uri.'&connect_redirect=1#wechat_redirect';
             header("Location:".$url);
         }
     }
@@ -78,13 +82,19 @@ class WeiXin extends CI_Controller
        $appId=$this->appId;
        $securet=$this->securet;
        $state=$_GET['state'];
+       $third_uri='';
+       if($state){
+           $third_uri=base64_decode($state);
+       }
        $code=$_GET['code'];
        $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appId.'&secret='.$securet.'&code='.$code.'&grant_type=authorization_code';
        $re=$this->http_request($url);
        $re=json_decode($re,true);
        //获取当前域名
        setcookie($this->openid,$re['openid'],time()+3600*24*365,'/',$_SERVER['HTTP_HOST']);
-       return json_encode(array('openid'=>$re['openid']));
+       if($third_uri){
+           header($third_uri);
+       }
     }
     /*
      *snsapi_userinfo 获取用户信息
@@ -112,6 +122,7 @@ class WeiXin extends CI_Controller
         return $this->getUserDtail($openid,$access_token);
 
     }
+
     public function getUserDtail($openid,$access_token){
         $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
 //        return $this->http_request($url);
