@@ -103,6 +103,7 @@ class WeiXin extends CI_Controller
                     //刷新access_token
                    $url='https://api.weixin.qq.com/sns/oauth2/refresh_token?appid='.$appId.'&grant_type=refresh_token&refresh_token='.$refresh_token;
                    $re=$this->http_request($url);
+                   echo $re;
                    $re=json_decode($re,true);
                    $key='changanmazida_'.$openid;
                    $access_token=$re['access_token'];
