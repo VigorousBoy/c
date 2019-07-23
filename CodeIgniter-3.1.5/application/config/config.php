@@ -523,3 +523,4 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 $config['push_url']=array('http://111.67.199.76/index.php');
 $config['refresh_time']=3600;
+$config['ac']=3600;

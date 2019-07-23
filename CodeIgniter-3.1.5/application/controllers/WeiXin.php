@@ -18,9 +18,10 @@ class WeiXin extends CI_Controller
      * 获取access_token 和 jsapi_ticket
      * */
     public function getAccessToken(){
-
-        if(file_exists('/access_token.json')){
-            $res = file_get_contents('access_token.json');
+        $this->load->helper('url');
+        $file=base_url().'access_token.json';
+        if(file_exists($file)){
+            $res = file_get_contents($file);
             $result = json_decode($res,true);
             $expires_time = $result["expires_time"];
             $access_token = $result["access_token"];
@@ -47,7 +48,7 @@ class WeiXin extends CI_Controller
                 }
             }
             $expires_time = time();
-            file_put_contents('/access_token.json', json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket,'expires_time'=>$expires_time)));
+            file_put_contents($file, json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket,'expires_time'=>$expires_time)));
             //对指定域名进行推送
             $push_url=$this->config->item('push_url');
             if($push_url){
@@ -287,4 +288,5 @@ class WeiXin extends CI_Controller
         $relate_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $php_self.(isset($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING'] : $path_info);
         return $sys_protocal.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '').$relate_url;
     }
+
 }
