@@ -90,9 +90,9 @@ class WeiXin extends CI_Controller
     /*
      *snsapi_userinfo 获取用户信息
      * */
-    public function getUseInfo(){
+    public function getUserInfo(){
         $appId=$this->appId;
-        $this->userInfoAuthor();
+        $this->userInfoAuthor();return;
         if($_COOKIE[$this->openid]){
             $openid=$_COOKIE[$this->openid];
             //是否已经授权了
