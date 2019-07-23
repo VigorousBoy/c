@@ -92,6 +92,7 @@ class WeiXin extends CI_Controller
      * */
     public function getUseInfo(){
         $appId=$this->appId;
+        $this->userInfoAuthor();
         if($_COOKIE[$this->openid]){
             $openid=$_COOKIE[$this->openid];
             //是否已经授权了
