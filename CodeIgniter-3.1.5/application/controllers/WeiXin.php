@@ -163,6 +163,23 @@ class WeiXin extends CI_Controller
     /*
      * 客服消息接入
      * */
+    function customSendMsg(){
+        $data=file_get_contents("php://input");
+        $access_token=$this->getAccessToken(true);
+        $access_token=json_decode($access_token,true);
+        $access_token=$access_token['access_token'];
+        $url='https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$access_token;
+        echo $this->http_request($url,$data);
+    }
+
+    //获取所有客服
+    public function getKfAll(){
+        $access_token=$this->getAccessToken(true);
+        $access_token=json_decode($access_token,true);
+        $access_token=$access_token['access_token'];
+        $url='https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token='.$access_token;
+        echo $this->http_request($url);
+    }
     //添加客服
     public function addKf(){
         $data=file_get_contents("php://input");
@@ -172,14 +189,21 @@ class WeiXin extends CI_Controller
         $url='https://api.weixin.qq.com/customservice/kfaccount/add?access_token='.$access_token;
         echo $this->http_request($url,$data);
     }
-    //
-    public function getKfAll(){
+    //修改客服账号
+    public function updateKf(){
+
+
+    }
+    //邀请客服绑定
+    public function inviteWorker(){
+        $data=file_get_contents("php://input");
         $access_token=$this->getAccessToken(true);
         $access_token=json_decode($access_token,true);
         $access_token=$access_token['access_token'];
-        $url='https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token='.$access_token;
-        echo $this->http_request($url);
+        $url='https://api.weixin.qq.com/customservice/kfaccount/inviteworker?access_token='.$access_token;
+        echo $this->http_request($url,$data);
     }
+
     /*
      * 消息的转发
      * */
