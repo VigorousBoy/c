@@ -17,7 +17,7 @@ class WeiXin extends CI_Controller
     /*
      * 获取access_token 和 jsapi_ticket
      * */
-    public function getAccessToken(){
+    public function getAccessToken($inner=false){
         $file=ROOTPATH.'access_token.json';
         if(file_exists($file)){
             $res = file_get_contents($file);
@@ -56,7 +56,11 @@ class WeiXin extends CI_Controller
                 }
             }
         }
-        echo json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket));
+        if($inner){
+            return json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket));
+        }else{
+            echo json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket));
+        }
     }
 
     /*
@@ -162,7 +166,7 @@ class WeiXin extends CI_Controller
     //添加客服
     public function addKf(){
         $data=file_get_contents("php://input");
-        $access_token=$this->getAccessToken();
+        $access_token=$this->getAccessToken(true);
         $access_token=json_decode($access_token,true);
         $access_token=$access_token['access_token'];
         $url='https://api.weixin.qq.com/customservice/kfaccount/add?access_token='.$access_token;
@@ -180,7 +184,7 @@ class WeiXin extends CI_Controller
     public function createMenu()
     {
         $menu=file_get_contents("php://input");
-        $access_token=$this->getAccessToken();
+        $access_token=$this->getAccessToken(true);
         $access_token=json_decode($access_token,true);
         $access_token=$access_token['access_token'];
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access_token";
