@@ -172,7 +172,14 @@ class WeiXin extends CI_Controller
         $url='https://api.weixin.qq.com/customservice/kfaccount/add?access_token='.$access_token;
         echo $this->http_request($url,$data);
     }
-
+    //
+    public function getKfAll(){
+        $access_token=$this->getAccessToken(true);
+        $access_token=json_decode($access_token,true);
+        $access_token=$access_token['access_token'];
+        $url='https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token='.$access_token;
+        echo $this->http_request($url);
+    }
     /*
      * 消息的转发
      * */
