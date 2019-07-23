@@ -95,9 +95,9 @@ class WeiXin extends CI_Controller
         if($_COOKIE[$this->openid]){
             $openid=$_COOKIE[$this->openid];
             //是否已经授权了
-            $key='changanmazida_'.$_COOKIE[$this->openid];
-            $access_token=$_COOKIE[$key.'access_token'];
-            $refresh_token=$_COOKIE[$key.'refresh_token'];
+            $key='changanmazida_'.$openid;
+            $access_token=isset($_COOKIE[$key.'access_token'])?$_COOKIE[$key.'access_token']:'';
+            $refresh_token=isset($_COOKIE[$key.'refresh_token'])?$_COOKIE[$key.'refresh_token']:'';
             if($refresh_token){
                 if(!$access_token){
                     //刷新access_token
