@@ -18,8 +18,7 @@ class WeiXin extends CI_Controller
      * 获取access_token 和 jsapi_ticket
      * */
     public function getAccessToken(){
-        $this->load->helper('url');
-        $file=base_url().'access_token.json';
+        $file=ROOTPATH.'access_token.json';
         if(file_exists($file)){
             $res = file_get_contents($file);
             $result = json_decode($res,true);
@@ -288,5 +287,7 @@ class WeiXin extends CI_Controller
         $relate_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $php_self.(isset($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING'] : $path_info);
         return $sys_protocal.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '').$relate_url;
     }
-
+    function t(){
+        echo ROOTPATH;
+    }
 }

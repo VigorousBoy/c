@@ -312,5 +312,6 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+define("ROOTPATH", str_replace("\\", "/", (realpath(dirname(__FILE__))).'/')) ;
 error_reporting(E_ALL);
 require_once BASEPATH.'core/CodeIgniter.php';
