@@ -66,7 +66,11 @@ class WeiXin extends CI_Controller
         $third_uri=isset($_GET['redirect_uri'])?$_GET['redirect_uri']:'';
         if($_COOKIE[$this->openid]){
             if($third_uri){
-                $third_uri.='&openid='.$_COOKIE[$this->openid];
+                if(stripos($third_uri,'?')){
+                    $third_uri=str_replace('?','?openid='.$_COOKIE[$this->openid].'&',$third_uri);
+                }else{
+                    $third_uri.='?openid='.$_COOKIE[$this->openid];
+                }
                 header("Location:".$third_uri);
             }
         }else{
@@ -96,6 +100,11 @@ class WeiXin extends CI_Controller
        //获取当前域名
        setcookie($this->openid,$re['openid'],time()+3600*24*365,'/',$_SERVER['HTTP_HOST']);
        if($third_uri){
+           if(stripos($third_uri,'?')){
+               $third_uri=str_replace('?','?openid='.$re['openid'].'&',$third_uri);
+           }else{
+               $third_uri.='?openid='.$re['openid'];
+           }
            header("Location:".$third_uri);
        }
     }
@@ -104,33 +113,58 @@ class WeiXin extends CI_Controller
      * */
     public function getUserInfo(){
         //用户授权
+        $third_uri=isset($_GET['redirect_uri'])?$_GET['redirect_uri']:'';
+        if($third_uri){
+            $third_uri=base64_encode($third_uri);
+        }
         $appId=$this->appId;
         $this->load->helper('url');
         $redirect_uri=urlencode(site_url('WeiXin/authorize2'));
-        $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect';
+        $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state='.$third_uri.'&connect_redirect=1#wechat_redirect';
         header("Location:".$url);
     }
     public function authorize2(){
         $appId=$this->appId;
         $securet=$this->securet;
         $state=$_GET['state'];
+        $third_uri='';
+        if($state){
+            $third_uri=base64_decode($state);
+        }
         $code=$_GET['code'];
         $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appId.'&secret='.$securet.'&code='.$code.'&grant_type=authorization_code';
         $re=$this->http_request($url);
         $re=json_decode($re,true);
         $access_token=$re['access_token'];
         $openid=$re['openid'];
-        setcookie($this->openid,$re['openid'],time()+3600*24*365,'',$_SERVER['HTTP_HOST']);
+        setcookie($this->openid,$re['openid'],time()+3600*24*365,'/',$_SERVER['HTTP_HOST']);
         //通过access_token获取用户信息
-        return $this->getUserDtail($openid,$access_token);
-
+        $userinfo=$this->getUserDtail($openid,$access_token);
+        $userinfo=json_decode($userinfo,true);
+        if($third_uri){
+            if(stripos($third_uri,'?')){
+                $third_uri=str_replace('?','?openid='.$userinfo['openid'].'&'.'nickname='.$userinfo['nickname'].'&',$third_uri);
+            }else{
+                $third_uri.='?openid='.$userinfo['openid'].'&'.'nickname='.$userinfo['nickname'];
+            }
+            header("Location:".$third_uri);
+        }
     }
 
     public function getUserDtail($openid,$access_token){
         $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
-//        return $this->http_request($url);
-        echo $this->http_request($url);
+        return $this->http_request($url);
     }
+
+    /*
+     * 客服消息接入
+     * */
+
+    /*
+     * 消息的转发
+     * */
+
+
     /*
      * 自定义菜单
      * */
