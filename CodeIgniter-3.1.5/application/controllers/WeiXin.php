@@ -90,35 +90,35 @@ class WeiXin extends CI_Controller
     /*
      *snsapi_userinfo 获取用户信息
      * */
+//    public function getUserInfo(){
+//        $appId=$this->appId;
+//        if($_COOKIE[$this->openid]){
+//            $openid=$_COOKIE[$this->openid];
+//            //是否已经授权了
+//            $key='changanmazida_'.$openid;
+//            $access_token=isset($_COOKIE[$key.'access_token'])?$_COOKIE[$key.'access_token']:'';
+//            $refresh_token=isset($_COOKIE[$key.'refresh_token'])?$_COOKIE[$key.'refresh_token']:'';
+//            if($refresh_token){
+//                if($access_token){
+//                    //刷新access_token
+//                   $url='https://api.weixin.qq.com/sns/oauth2/refresh_token?appid='.$appId.'&grant_type=refresh_token&refresh_token='.$refresh_token;
+//                   $re=$this->http_request($url);
+//                   echo $refresh_token.'<br/>';
+//                   echo $re;
+//                   $re=json_decode($re,true);
+//                   $key='changanmazida_'.$openid;
+//                   $access_token=$re['access_token'];
+//                   setcookie($key.'access_token',$access_token,time()+7000,'/',$_SERVER['HTTP_HOST']);
+//                }
+//                return $this->getUserDtail($openid,$access_token);
+//            }else{
+//                $this->userInfoAuthor();
+//            }
+//        }else{
+//            $this->userInfoAuthor();
+//        }
+//    }
     public function getUserInfo(){
-        $appId=$this->appId;
-        if($_COOKIE[$this->openid]){
-            $openid=$_COOKIE[$this->openid];
-            //是否已经授权了
-            $key='changanmazida_'.$openid;
-            $access_token=isset($_COOKIE[$key.'access_token'])?$_COOKIE[$key.'access_token']:'';
-            $refresh_token=isset($_COOKIE[$key.'refresh_token'])?$_COOKIE[$key.'refresh_token']:'';
-            if($refresh_token){
-                if($access_token){
-                    //刷新access_token
-                   $url='https://api.weixin.qq.com/sns/oauth2/refresh_token?appid='.$appId.'&grant_type=refresh_token&refresh_token='.$refresh_token;
-                   $re=$this->http_request($url);
-                   echo $refresh_token.'<br/>';
-                   echo $re;
-                   $re=json_decode($re,true);
-                   $key='changanmazida_'.$openid;
-                   $access_token=$re['access_token'];
-                   setcookie($key.'access_token',$access_token,time()+7000,'/',$_SERVER['HTTP_HOST']);
-                }
-                return $this->getUserDtail($openid,$access_token);
-            }else{
-                $this->userInfoAuthor();
-            }
-        }else{
-            $this->userInfoAuthor();
-        }
-    }
-    public function userInfoAuthor(){
         //用户授权
         $appId=$this->appId;
         $this->load->helper('url');
@@ -135,13 +135,13 @@ class WeiXin extends CI_Controller
         $re=$this->http_request($url);
 
         $re=json_decode($re,true);
-        $key='changanmazida_'.$re['openid'];
+//        $key='changanmazida_'.$re['openid'];
         $access_token=$re['access_token'];
         $refresh_token=$re['refresh_token'];
         $openid=$re['openid'];
-        setcookie($this->openid,$re['openid'],time()+3600*24*365,'',$_SERVER['HTTP_HOST']);
-        setcookie($key.'access_token',$access_token,time()+7000,'/',$_SERVER['HTTP_HOST']);
-        setcookie($key.'refresh_token',$refresh_token,time()+3600*24*30,'/',$_SERVER['HTTP_HOST']);
+//        setcookie($this->openid,$re['openid'],time()+3600*24*365,'',$_SERVER['HTTP_HOST']);
+//        setcookie($key.'access_token',$access_token,time()+7000,'/',$_SERVER['HTTP_HOST']);
+//        setcookie($key.'refresh_token',$refresh_token,time()+3600*24*30,'/',$_SERVER['HTTP_HOST']);
         //通过access_token获取用户信息
         return $this->getUserDtail($openid,$access_token);
 
