@@ -19,7 +19,7 @@ class WeiXin extends CI_Controller
      * */
     public function getAccessToken(){
 
-        if(file_exists('access_token.json')){
+        if(file_exists('/access_token.json')){
             $res = file_get_contents('access_token.json');
             $result = json_decode($res,true);
             $expires_time = $result["expires_time"];
@@ -47,7 +47,7 @@ class WeiXin extends CI_Controller
                 }
             }
             $expires_time = time();
-            file_put_contents('access_token.json', json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket,'expires_time'=>$expires_time)));
+            file_put_contents('/access_token.json', json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket,'expires_time'=>$expires_time)));
             //对指定域名进行推送
             $push_url=$this->config->item('push_url');
             if($push_url){
