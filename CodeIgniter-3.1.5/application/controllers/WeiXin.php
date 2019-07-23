@@ -159,6 +159,15 @@ class WeiXin extends CI_Controller
     /*
      * 客服消息接入
      * */
+    //添加客服
+    public function addKf(){
+        $data=file_get_contents("php://input");
+        $access_token=$this->getAccessToken();
+        $access_token=json_decode($access_token,true);
+        $access_token=$access_token['access_token'];
+        $url='https://api.weixin.qq.com/customservice/kfaccount/add?access_token='.$access_token;
+        return $this->http_request($url,$data);
+    }
 
     /*
      * 消息的转发
