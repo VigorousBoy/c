@@ -64,12 +64,15 @@ class WeiXin extends CI_Controller
      * */
     public function getOpenid(){
         $third_uri=isset($_GET['redirect_uri'])?$_GET['redirect_uri']:'';
-        if($third_uri){
-            $third_uri=base64_encode($third_uri);
-        }
         if($_COOKIE[$this->openid]){
-            return json_encode(array('openid'=>$_COOKIE[$this->openid]));
+            if($third_uri){
+                $third_uri.='&openid='.$_COOKIE[$this->openid];
+                header($third_uri);
+            }
         }else{
+            if($third_uri){
+                $third_uri=base64_encode($third_uri);
+            }
             $appId=$this->appId;
             $this->load->helper('url');
             $redirect_uri=urlencode(site_url('WeiXin/authorize1'));
