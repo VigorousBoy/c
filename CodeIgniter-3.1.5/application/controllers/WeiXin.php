@@ -34,7 +34,6 @@ class WeiXin extends CI_Controller
         if (time()>($expires_time + $refresh_time) || !$access_token || !$jsapi_ticket){
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$this->appId."&secret=".$this->securet;
             $res = $this->http_request($url);
-            echo $res;
             $result = json_decode($res, true);
             $access_token = $result["access_token"];
             //获取jsapi_ticket
