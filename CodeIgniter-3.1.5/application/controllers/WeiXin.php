@@ -71,8 +71,7 @@ class WeiXin extends CI_Controller
                 }else{
                     $third_uri.='?openid='.$_COOKIE[$this->openid];
                 }
-                echo $third_uri;
-//                header("Location:".$third_uri);
+                header("Location:".$third_uri);
             }
         }else{
             if($third_uri){
