@@ -75,7 +75,7 @@ class WeiXin extends CI_Controller
             }
             $appId=$this->appId;
             $this->load->helper('url');
-            $redirect_uri=urlencode(site_url('WeiXin/authorize1'));
+            $redirect_uri=urlencode(site_url('WeiXin/authorize1').'?s=123');
             $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state='.$third_uri.'&connect_redirect=1#wechat_redirect';
             header("Location:".$url);
         }
