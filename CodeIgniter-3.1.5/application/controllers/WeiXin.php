@@ -67,7 +67,7 @@ class WeiXin extends CI_Controller
         if($_COOKIE[$this->openid]){
             if($third_uri){
                 $third_uri.='&openid='.$_COOKIE[$this->openid];
-                header($third_uri);
+                header("Location:".$third_uri);
             }
         }else{
             if($third_uri){
@@ -96,7 +96,7 @@ class WeiXin extends CI_Controller
        //获取当前域名
        setcookie($this->openid,$re['openid'],time()+3600*24*365,'/',$_SERVER['HTTP_HOST']);
        if($third_uri){
-           header($third_uri);
+           header("Location:".$third_uri);
        }
     }
     /*
