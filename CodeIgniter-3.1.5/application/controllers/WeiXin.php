@@ -56,7 +56,7 @@ class WeiXin extends CI_Controller
                 }
             }
         }
-        return json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket));
+        echo json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket));
     }
 
     /*
@@ -166,7 +166,7 @@ class WeiXin extends CI_Controller
         $access_token=json_decode($access_token,true);
         $access_token=$access_token['access_token'];
         $url='https://api.weixin.qq.com/customservice/kfaccount/add?access_token='.$access_token;
-        return $this->http_request($url,$data);
+        echo $this->http_request($url,$data);
     }
 
     /*
@@ -186,7 +186,7 @@ class WeiXin extends CI_Controller
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access_token";
         if (!empty($menu)) {
             $res = $this->http_request($url,$menu);
-            return $res;
+            echo $res;
         }
     }
     /*
@@ -258,36 +258,5 @@ class WeiXin extends CI_Controller
         $output = curl_exec($curl);
         curl_close($curl);
         return $output;
-    }
-
-    public function doRequest($host,$path, $param=array()){
-        $query = isset($param)? http_build_query($param) : '';
-
-        $port = 80;
-        $errno = 0;
-        $errstr = '';
-        $timeout = 10;
-
-        $fp = fsockopen($host, $port, $errno, $errstr, $timeout);
-
-        $out = "POST ".$path." HTTP/1.1\r\n";
-        $out .= "host:".$host."\r\n";
-        $out .= "content-length:".strlen($query)."\r\n";
-        $out .= "content-type:application/x-www-form-urlencoded\r\n";
-        $out .= "connection:close\r\n\r\n";
-        $out .= $query;
-
-        fputs($fp, $out);
-        fclose($fp);
-    }
-    function get_url() {
-        $sys_protocal = isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443' ? 'https://' : 'http://';
-        $php_self = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
-        $path_info = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
-        $relate_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $php_self.(isset($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING'] : $path_info);
-        return $sys_protocal.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '').$relate_url;
-    }
-    function t(){
-        echo ROOTPATH;
     }
 }
