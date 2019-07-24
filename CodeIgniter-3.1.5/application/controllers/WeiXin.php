@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Administrator
+ * User: zhoujie
  * Date: 2019/7/19
  * Time: 13:24
  */
@@ -160,21 +160,6 @@ class WeiXin extends CI_Controller
         return $this->http_request($url);
     }
 
-
-    /*
-     *消息自动回复
-     * */
-    public function autoReply(){
-
-    }
-
-    /*
-     * 客服消息的接收
-     * */
-    public function customReceiveMsg(){
-
-    }
-
     /*
      * 客服消息发送
      * */
@@ -234,11 +219,24 @@ class WeiXin extends CI_Controller
             echo $res;
         }
     }
-
+    /*
+     * 上传卡券logo
+     * */
+    public function cardLogo(){
+        $access_token=$this->getAccessToken(true);
+        $access_token=json_decode($access_token,true);
+        $access_token=$access_token['access_token'];
+        $target=$_GET['target'];
+        $url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=" . urlencode($access_token);
+        $file = array("buffer"=>'@'.$target);  //$target即为logo图片路径
+        echo $this->http_request($url,$file);
+    }
     /*
      * 生成卡券
      * */
+    public function createCard(){
 
+    }
     /*
      * 核销卡券
      * */

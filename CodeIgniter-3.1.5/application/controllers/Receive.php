@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Administrator
+ * User: zhoujie
  * Date: 2019/7/24
  * Time: 14:10
  */
@@ -13,7 +13,7 @@ class Receive extends CI_Controller
     public function receiveMsg(){
         if($_GET["echostr"])//验证签名
         {
-           $this->valid();
+            $this->valid();
         }else//其他事件
         {
             $this->responseMsg();
@@ -85,5 +85,28 @@ class Receive extends CI_Controller
                     </xml>";
         $result = sprintf($textTpl, $postObj->FromUserName, $postObj->ToUserName,time());
         return $result;
+    }
+
+    public function handleEvent($object)
+    {
+        $contentStr = "";
+        switch ($object->Event)
+        {
+            case "subscribe":
+            case "unsubscribe":
+            case "CLICK":
+            case "SCAN":
+                break;
+            case "card_pass_check"://卡券审核通过事件
+                break;
+            case "card_not_pass_check"://卡券审核不通过事件
+                break;
+            case "user_get_card"://卡券领取事件
+                break;
+            default :
+                $contentStr = "Unknow Event: ".$object->Event;
+                break;
+        }
+        return $contentStr;
     }
 }
