@@ -228,7 +228,7 @@ class WeiXin extends CI_Controller
         $access_token=$access_token['access_token'];
         $target=$_GET['target'];
         $url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=".$access_token.'&type=image';
-        $target='/var/www/html/img/time.jpg';
+
         if (class_exists('CURLFile')) {
             $file = array("buffer"=>new CURLFile($target),'access_token'=>$access_token);  //$target即为logo图片路径
         } else {
@@ -240,7 +240,12 @@ class WeiXin extends CI_Controller
      * 生成卡券
      * */
     public function createCard(){
-
+        $access_token=$this->getAccessToken(true);
+        $access_token=json_decode($access_token,true);
+        $access_token=$access_token['access_token'];
+        $card=file_get_contents("php://input");
+        $url='https://api.weixin.qq.com/card/create?access_token='.$access_token;
+        echo $this->http_request($url,$card);
     }
     /*
      * 核销卡券
@@ -277,24 +282,5 @@ class WeiXin extends CI_Controller
         $output = curl_exec($curl);
         curl_close($curl);
         return $output;
-    }
-    function weekendHttpPost($url, $vars=array())
-    {
-        if (!function_exists ( 'curl_init'))
-        {
-            die("请联系运维开启curl功能");
-        }
-        $ch = curl_init ();//执行POST请求
-        curl_setopt ( $ch, CURLOPT_URL, $url );
-        curl_setopt ( $ch, CURLOPT_POST, 1 );
-        curl_setopt ( $ch, CURLOPT_POSTFIELDS, $vars);
-        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
-        $result = curl_exec( $ch );
-        curl_close ( $ch );
-        if ($result)
-        {
-            return $result;
-        }
-        return false;
     }
 }
