@@ -234,7 +234,7 @@ class WeiXin extends CI_Controller
         } else {
             $file = array("buffer"=>'@'.$target,'access_token'=>$access_token);  //$target即为logo图片路径
         }
-        echo $this->weekendHttpPost($url,$file);
+        echo 'dsa'.$this->weekendHttpPost($url,$file);
     }
     /*
      * 生成卡券
