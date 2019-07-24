@@ -227,7 +227,7 @@ class WeiXin extends CI_Controller
         $access_token=json_decode($access_token,true);
         $access_token=$access_token['access_token'];
         $target=$_GET['target'];
-        $url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=" . urlencode($access_token);
+        $url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=".$access_token.'&type=image';
         $file = array("buffer"=>'@'.$target);  //$target即为logo图片路径
         echo $this->http_request($url,$file);
     }
