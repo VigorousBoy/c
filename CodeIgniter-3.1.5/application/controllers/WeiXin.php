@@ -233,6 +233,7 @@ class WeiXin extends CI_Controller
         } else {
             $file = array("buffer"=>'@'.$target);  //$target即为logo图片路径
         }
+        var_dump($file);
         echo $this->http_request($url,$file);
     }
     /*
