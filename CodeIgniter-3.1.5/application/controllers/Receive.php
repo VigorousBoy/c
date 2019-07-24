@@ -46,4 +46,45 @@ class Receive extends CI_Controller
             return false;
         }
     }
+    public function responseMsg()
+    {
+        $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+        if (!empty($postStr))
+        {
+            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $RX_TYPE = trim($postObj->MsgType);
+
+            switch($RX_TYPE)
+            {
+                case "text":
+                case "voice":
+                case "image":
+                     $resultStr = $this->handleUserInput($postObj);
+                     break;
+                case "event":
+                    $resultStr = $this->handleEvent($postObj);
+                    break;
+                default:
+                    $resultStr = "Unknow msg type: ".$RX_TYPE;
+                    break;
+            }
+            echo $resultStr;
+        }else
+        {
+            echo "error";
+            exit;
+        }
+    }
+    public function handleUserInput($postObj){
+        $textTpl = "<xml>
+					<ToUserName><![CDATA[%s]]></ToUserName>
+					<FromUserName><![CDATA[%s]]></FromUserName>
+					<CreateTime>%s</CreateTime>
+					<MsgType><![CDATA[text]]></MsgType>
+					<Content><![CDATA[%s]]></Content>
+					<FuncFlag>0</FuncFlag>
+					</xml>";
+        $result = sprintf($textTpl, $postObj->FromUserName, $postObj->ToUserName, time(), 'hello');
+        return $result;
+    }
 }
