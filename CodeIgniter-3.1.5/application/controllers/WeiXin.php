@@ -160,8 +160,23 @@ class WeiXin extends CI_Controller
         return $this->http_request($url);
     }
 
+
     /*
-     * 客服消息接入
+     *消息自动回复
+     * */
+    public function autoReply(){
+
+    }
+
+    /*
+     * 客服消息的接收
+     * */
+    public function customReceiveMsg(){
+
+    }
+
+    /*
+     * 客服消息发送
      * */
     function customSendMsg(){
         $data=file_get_contents("php://input");
@@ -180,7 +195,7 @@ class WeiXin extends CI_Controller
         $url='https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token='.$access_token;
         echo $this->http_request($url);
     }
-    //添加客服
+    //添加客服/
     public function addKf(){
         $data=file_get_contents("php://input");
         $access_token=$this->getAccessToken(true);
@@ -188,11 +203,6 @@ class WeiXin extends CI_Controller
         $access_token=$access_token['access_token'];
         $url='https://api.weixin.qq.com/customservice/kfaccount/add?access_token='.$access_token;
         echo $this->http_request($url,$data);
-    }
-    //修改客服账号
-    public function updateKf(){
-
-
     }
     //邀请客服绑定
     public function inviteWorker(){
@@ -224,44 +234,15 @@ class WeiXin extends CI_Controller
             echo $res;
         }
     }
+
     /*
-     * 测试微信自定义菜单
+     * 生成卡券
      * */
-    public function test()
-    {
-        $json = '{
-     "button":[
-     {    
-          "type":"click",
-          "name":"今日歌曲",
-          "key":"V1001_TODAY_MUSIC"
-      },
-      {
-           "name":"菜",
-           "sub_button":[
-           {    
-               "type":"view",
-               "name":"搜索",
-               "url":"http://www.soso.com/"
-            },
-            {
-                 "type":"miniprogram",
-                 "name":"wxa",
-                 "url":"http://mp.weixin.qq.com",
-                 "appid":"wx286b93c14bbf93aa",
-                 "pagepath":"pages/lunar/index"
-             },
-            {
-               "type":"click",
-               "name":"赞一下我们",
-               "key":"V1001_GOOD"
-            }]
-       }]
- }';
-        $url='http://localhost/CodeIgniter-3.1.5/index.php/WeiXin/createMenu';
-        $res = $this->http_request($url,$json);
-        var_dump($res);
-    }
+
+    /*
+     * 核销卡券
+     * */
+
     /*
      * json_encode 中文变Unicode的问题
      * */
