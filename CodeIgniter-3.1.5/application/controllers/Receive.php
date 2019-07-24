@@ -76,15 +76,14 @@ class Receive extends CI_Controller
         }
     }
     public function handleUserInput($postObj){
-        $textTpl = "<xml>
-					<ToUserName><![CDATA[%s]]></ToUserName>
-					<FromUserName><![CDATA[%s]]></FromUserName>
-					<CreateTime>%s</CreateTime>
-					<MsgType><![CDATA[text]]></MsgType>
-					<Content><![CDATA[%s]]></Content>
-					<FuncFlag>0</FuncFlag>
-					</xml>";
-        $result = sprintf($textTpl, $postObj->FromUserName, $postObj->ToUserName, time(), 'hello');
+        //所有的消息转交给客服
+        $textTpl = " <xml> 
+                    <ToUserName><![CDATA[%s]]></ToUserName>  
+                    <FromUserName><![CDATA[%s]]></FromUserName>  
+                    <CreateTime>%s</CreateTime>  
+                    <MsgType><![CDATA[transfer_customer_service]]></MsgType> 
+                    </xml>";
+        $result = sprintf($textTpl, $postObj->FromUserName, $postObj->ToUserName,time());
         return $result;
     }
 }
