@@ -337,7 +337,12 @@ class WeiXin extends CI_Controller
         $push_url=$this->config->item('push_url');
         if($push_url){
             foreach ($push_url as $v){
-                $this->http_request($v,json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket)));
+                $push_data=json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket));
+                $this->http_request($v,$push_data);
+                //进行推送log的记录
+                $file= $file=ROOTPATH.'push_log.txt';
+                $str='地址：'.$v."\r\n".'时间：'.date('Y-m-d H:i:s')."\r\n".'数据：'.$push_data."\r\n";
+                file_put_contents($file,$str,FILE_APPEND);
             }
         }
 
