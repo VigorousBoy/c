@@ -1,5 +1,8 @@
 ;$(function(){
 	var mId=null;
+    layui.use('layer',function () {
+        var layer=layui.layer;
+    });
 	//显示自定义按钮组
 	var obj={
 		    "menu": {
