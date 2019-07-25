@@ -103,6 +103,8 @@ class Receive extends CI_Controller
                 break;
             case "user_get_card"://卡券领取事件
                 break;
+            case "user_pay_from_pay_cell"://卡券买单事件
+                break;
             default :
                 $contentStr = "Unknow Event: ".$object->Event;
                 break;

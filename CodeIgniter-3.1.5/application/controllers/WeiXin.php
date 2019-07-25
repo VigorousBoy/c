@@ -248,6 +248,40 @@ class WeiXin extends CI_Controller
         echo $this->http_request($url,$card);
     }
     /*
+     * 设置买单接口
+     * */
+    public function payCell(){
+        $access_token=$this->getAccessToken(true);
+        $access_token=json_decode($access_token,true);
+        $access_token=$access_token['access_token'];
+        $data=file_get_contents("php://input");
+        $url='https://api.weixin.qq.com/card/paycell/set?access_token='.$access_token;
+        echo $this->http_request($url,$data);
+    }
+    /*
+     * 自助核销接口
+     * */
+    public function selfConsumeCell(){
+        $access_token=$this->getAccessToken(true);
+        $access_token=json_decode($access_token,true);
+        $access_token=$access_token['access_token'];
+        $data=file_get_contents("php://input");
+        $url='https://api.weixin.qq.com/card/selfconsumecell/set?access_token='.$access_token;
+        echo $this->http_request($url,$data);
+    }
+    /*
+     * 创建二维码接口
+     * */
+    public function qrCodeCreate(){
+        $access_token=$this->getAccessToken(true);
+        $access_token=json_decode($access_token,true);
+        $access_token=$access_token['access_token'];
+        $data=file_get_contents("php://input");
+        $url='https://api.weixin.qq.com/card/qrcode/create?access_token='.$access_token;
+        echo $this->http_request($url,$data);
+    }
+
+    /*
      * 核销卡券
      * */
 
