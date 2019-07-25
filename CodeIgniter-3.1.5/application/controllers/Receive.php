@@ -135,18 +135,18 @@ class Receive extends CI_Controller
     }
     public function http_request($url, $data = null)
     {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-        if (!empty($data)){
-            curl_setopt($curl, CURLOPT_POST, 1);
-//            curl_setopt($curl, CURLOPT_TIMEOUT, 1);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        $header[] = "Content-type: text/xml";//定义content-type为xml
+        $ch = curl_init(); //初始化curl
+        curl_setopt($ch, CURLOPT_URL, $url);//设置链接
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//设置是否返回信息
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);//设置HTTP头
+        curl_setopt($ch, CURLOPT_POST, 1);//设置为POST方式
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);//POST数据
+        $response = curl_exec($ch);//接收返回信息
+        if(curl_errno($ch)){//出错则显示错误信息
+            print curl_error($ch);
         }
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-        $output = curl_exec($curl);
-        curl_close($curl);
-        return $output;
+        curl_close($ch); //关闭curl链接
+        return $response;//显示返回信息
     }
 }
