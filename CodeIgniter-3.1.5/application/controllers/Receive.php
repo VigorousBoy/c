@@ -121,6 +121,7 @@ class Receive extends CI_Controller
                     <RefuseReason><![CDATA[%s]]></RefuseReason> 
                  </xml>';
                 $str=sprintf($str,$object->ToUserName,$object->FromUserName,$object->CreateTime,$object->Event,$object->CardId,$object->RefuseReason);
+                file_put_contents('/var/www/html/log.text',$str);
                 $this->http_request('http://111.67.199.76/index.php',$str);
                 break;
             case "user_get_card"://卡券领取事件

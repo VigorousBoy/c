@@ -51,9 +51,9 @@ class WeiXin extends CI_Controller
             //对指定域名进行推送
             $push_url=$this->config->item('push_url');
             if($push_url){
-                foreach ($push_url as $v){
-                    $this->http_request($v,json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket)));
-                }
+                $this->load->helper('url');
+                $push_url=site_url('WeiXin/urlPush');
+                $this->http_request($push_url);
             }
         }
         if($inner){
@@ -301,6 +301,48 @@ class WeiXin extends CI_Controller
         return $str;
     }
 
+    public function urlPush(){
+        echo 1;
+        $file=ROOTPATH.'access_token.json';
+        if(file_exists($file)){
+            $res = file_get_contents($file);
+            $result = json_decode($res,true);
+            $expires_time = $result["expires_time"];
+            $access_token = $result["access_token"];
+            $jsapi_ticket=$result["access_token"];
+        }else{
+            $expires_time =0;
+            $access_token ='';
+            $jsapi_ticket='';
+        }
+        $refresh_time=$this->config->item('refresh_time');
+        if(time()>($expires_time + $refresh_time) || !$access_token || !$jsapi_ticket){
+            $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$this->appId."&secret=".$this->securet;
+            $res = $this->http_request($url);
+            $result = json_decode($res, true);
+            $access_token = $result["access_token"];
+            //获取jsapi_ticket
+            $url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=' . $access_token;
+            $res =$this->http_request($url);
+            if (!empty($res)){
+                $result = json_decode($res, true);
+                $jsApiTicke =$result['ticket'];
+                if (!empty($jsApiTicke)) {
+                    $jsapi_ticket=$jsApiTicke;
+                }
+            }
+            $expires_time = time();
+            file_put_contents($file, json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket,'expires_time'=>$expires_time)));
+        }
+        //进行推送
+        $push_url=$this->config->item('push_url');
+        if($push_url){
+            foreach ($push_url as $v){
+                $this->http_request($v,json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket)));
+            }
+        }
+
+    }
     public function http_request($url, $data = null)
     {
         $curl = curl_init();
