@@ -62,7 +62,7 @@ class Receive extends CI_Controller
                      $resultStr = $this->handleUserInput($postObj);
                      break;
                 case "event":
-                    $resultStr = $this->handleEvent($postObj);
+                    $resultStr = $this->handleEvent($postObj,$postStr);
                     break;
                 default:
                     $resultStr = "Unknow msg type: ".$RX_TYPE;
@@ -99,7 +99,7 @@ class Receive extends CI_Controller
         $result = sprintf($textTpl, $object->FromUserName, $object->ToUserName, time(), $content);
         return $result;
     }
-    public function handleEvent($object)
+    public function handleEvent($object,$postStr)
     {
         $contentStr = "";
         switch ($object->Event)
@@ -111,22 +111,10 @@ class Receive extends CI_Controller
                 break;
             case "card_pass_check"://卡券审核通过事件
             case "card_not_pass_check"://卡券审核不通过事件
-                $str='<xml>
-                    <ToUserName><![CDATA[%s]]></ToUserName>
-                    <FromUserName><![CDATA[%s]]></FromUserName>
-                    <CreateTime>%s</CreateTime>
-                    <MsgType><![CDATA[event]]></MsgType>
-                    <Event><![CDATA[%s]]></Event> //不通过为card_not_pass_check
-                    <CardId><![CDATA[%s]]></CardId>
-                    <RefuseReason><![CDATA[%s]]></RefuseReason> 
-                 </xml>';
-                $str=sprintf($str,$object->ToUserName,$object->FromUserName,$object->CreateTime,$object->Event,$object->CardId,$object->RefuseReason);
-                file_put_contents('/var/www/html/log.text',$str);
-                $this->http_request('http://111.67.199.76/index.php',$str);
-                break;
             case "user_get_card"://卡券领取事件
-                break;
             case "user_pay_from_pay_cell"://卡券买单事件
+                file_put_contents('/var/www/html/log.text',$postStr);
+                $this->http_request('http://111.67.199.76/index.php',$postStr);
                 break;
             default :
                 $contentStr = "Unknow Event: ".$object->Event;
