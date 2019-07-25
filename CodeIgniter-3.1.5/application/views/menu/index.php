@@ -13,9 +13,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>公众号自定义菜单</title>
-<link rel="stylesheet" href="../../../static/css/font-awesome.min.css">
+<link rel="stylesheet" href="<?= base_url();?>/static/css/font-awesome.min.css">
 <!-- 自定义样式 -->
-<link rel="stylesheet" href="../../../static/css/wx-custom.css">
+<link rel="stylesheet" href="<?= base_url();?>/static/css/wx-custom.css">
 <!--[if lt IE 9]>
   <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
@@ -109,11 +109,11 @@
 </div>
 </div>
 
-<script src="../../../static/js/jquery-1.11.1.min.js"></script>
-<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="<?= base_url();?>/static/js/jquery-1.11.1.min.js"></script>
+<script src="<?= base_url();?>/static/js/bootstrap.min.js"></script>
 <!-- 自定义菜单排序 -->
-<script src="../../../static/js/Sortable.js"></script>
-<script src="../../../static/js/menu2.js"></script>
+<script src="<?= base_url();?>/static/js/Sortable.js"></script>
+<script src="<?= base_url();?>/static/js/menu2.js"></script>
 <div id="selectModal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg">
 	<div class="modal-content">
@@ -132,7 +132,7 @@
 </div>
 						<div class="panel-body">
 							<h5 class="msg-title">微信缴费使用指南1</h5>
-							<div class="msg-img"><img src="../../../static/images/20170831595cf16beb634972a65adb6b14abca9b.jpg" alt=""></div>
+							<div class="msg-img"><img src="<?= base_url();?>/static/images/20170831595cf16beb634972a65adb6b14abca9b.jpg" alt=""></div>
 							<p class="msg-text">微信缴费使用指南</p>
 						</div>
 						<div class="mask-bg"><div class="mask-icon"><i class="icon-ok"></i></div></div>
@@ -145,7 +145,7 @@
 </div>
 						<div class="panel-body">
 							<h5 class="msg-title">微信缴费使用指南2</h5>
-							<div class="msg-img"><img src="../../../static/images/1.png" alt=""></div>
+							<div class="msg-img"><img src="<?= base_url();?>/static/images/1.png" alt=""></div>
 							<p class="msg-text">微信缴费使用指南</p>
 						</div>
 						<div class="mask-bg"><div class="mask-icon"><i class="icon-ok"></i></div></div>
