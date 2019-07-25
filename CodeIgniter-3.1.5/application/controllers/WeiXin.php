@@ -366,7 +366,7 @@ class WeiXin extends CI_Controller
     {
         $args = parse_url($url); //对url做下简单处理
         $host = $args['host']; //获取上报域名
-        $path = $args['path'] . '?' . isset($args['query'])?$args['query']:'';//获取上报地址
+        $path = $args['path'];//获取上报地址
         $fp = fsockopen($host, 80, $error_code, $error_msg, 1);
         if($fp){
             stream_set_blocking($fp, true);//开启了手册上说的非阻塞模式
