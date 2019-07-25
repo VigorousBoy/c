@@ -53,7 +53,7 @@ class WeiXin extends CI_Controller
             if($push_url){
                 $this->load->helper('url');
                 $push_url=site_url('WeiXin/urlPush');
-                $this->http_request($push_url);
+                $this->asyncPost($push_url);
             }
         }
         if($inner){
@@ -302,7 +302,6 @@ class WeiXin extends CI_Controller
     }
 
     public function urlPush(){
-        header("Connection: close");
         $file=ROOTPATH.'access_token.json';
         if(file_exists($file)){
             $res = file_get_contents($file);
@@ -358,5 +357,25 @@ class WeiXin extends CI_Controller
         $output = curl_exec($curl);
         curl_close($curl);
         return $output;
+    }
+
+    /*
+     * 忽略返回值的请求
+     * */
+    public static function asyncPost($url, $params = [])
+    {
+        $args = parse_url($url); //对url做下简单处理
+        $host = $args['host']; //获取上报域名
+        $path = $args['path'] . '?' . http_build_query($params);//获取上报地址
+        $fp = fsockopen($host, 80);
+        if($fp){
+            stream_set_blocking($fp, true);//开启了手册上说的非阻塞模式
+            stream_set_timeout($fp, 1);//设置超时
+            $header = "GET $path HTTP/1.1\r\n";  //注意 GET/POST请求都行 我们需要自己按照要求拼装Header http协议遵循1.1
+            $header .= "Host: $host\r\n";
+            $header .= "Connection: close\r\n\r\n";//长连接关闭
+            fwrite($fp, $header);
+            fclose($fp);
+        }
     }
 }
