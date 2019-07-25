@@ -116,11 +116,7 @@
 <!-- 自定义菜单排序 -->
 <script src="<?= base_url();?>static/js/Sortable.js"></script>
 <script src="<?= base_url();?>static/js/layer/layer.js"></script>
-<script>
-    layui.use('layer',function () {
-        var layer=layui.layer;
-    });
-</script>
+
 <script src="<?= base_url();?>static/js/menu2.js"></script>
 <div id="selectModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
