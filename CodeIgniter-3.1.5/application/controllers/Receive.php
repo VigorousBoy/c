@@ -113,7 +113,16 @@ class Receive extends CI_Controller
             case "card_not_pass_check"://卡券审核不通过事件
             case "user_get_card"://卡券领取事件
             case "user_pay_from_pay_cell"://卡券买单事件
-                file_put_contents('/var/www/html/log.text',$postStr);
+            case "user_gifting_card"://卡券转赠事件
+            case "user_del_card"://卡券删除事件
+            case "user_consume_card"://卡券核销事件
+            case "user_view_card"://用户进入会员卡事件
+            case "update_member_card"://会员卡内容更新事件
+            case "card_sku_remind"://库存报警事件
+            case "card_pay_order"://券点流水详情事件
+            case "submit_membercard_user_info"://会员卡激活事件推送
+                //事件的转发推送
+                file_put_contents('/var/www/html/log.txt',$postStr);
                 $this->http_request('http://111.67.199.76/index.php',$postStr);
                 break;
             default :
