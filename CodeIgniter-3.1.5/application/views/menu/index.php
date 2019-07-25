@@ -115,6 +115,7 @@
 <script src="<?= base_url();?>static/js/bootstrap.min.js"></script>
 <!-- 自定义菜单排序 -->
 <script src="<?= base_url();?>static/js/Sortable.js"></script>
+<script src="<?= base_url();?>static/js/layer/layer.js"></script>
 <script src="<?= base_url();?>static/js/menu2.js"></script>
 <div id="selectModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
