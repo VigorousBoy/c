@@ -302,7 +302,7 @@ class WeiXin extends CI_Controller
     }
 
     public function urlPush(){
-        echo 1;
+        header("Connection: close");
         $file=ROOTPATH.'access_token.json';
         if(file_exists($file)){
             $res = file_get_contents($file);
