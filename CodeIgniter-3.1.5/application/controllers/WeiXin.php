@@ -362,19 +362,19 @@ class WeiXin extends CI_Controller
     /*
      * 忽略返回值的请求
      * */
-    public static function asyncPost($url, $params = [])
+    public function asyncPost($url)
     {
         $args = parse_url($url); //对url做下简单处理
         $host = $args['host']; //获取上报域名
-        $path = $args['path'] . '?' . http_build_query($params);//获取上报地址
-        $fp = fsockopen($host, 80);
+        $path = $args['path'] . '?' . $args['query'];//获取上报地址
+        $fp = fsockopen($host, 80, $error_code, $error_msg, 1);
         if($fp){
             stream_set_blocking($fp, true);//开启了手册上说的非阻塞模式
             stream_set_timeout($fp, 1);//设置超时
-            $header = "GET $path HTTP/1.1\r\n";  //注意 GET/POST请求都行 我们需要自己按照要求拼装Header http协议遵循1.1
+            $header = "GET $path HTTP/1.1\r\n"; //注意 GET/POST请求都行 我们需要自己按照要求拼装Header http协议遵循1.1
             $header .= "Host: $host\r\n";
             $header .= "Connection: close\r\n\r\n";//长连接关闭
-            fwrite($fp, $header);
+            fputs($fp, $header);
             fclose($fp);
         }
     }
