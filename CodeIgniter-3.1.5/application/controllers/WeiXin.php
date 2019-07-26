@@ -284,7 +284,26 @@ class WeiXin extends CI_Controller
     /*
      * 核销卡券
      * */
-
+    //查询code接口
+    public function codeCheck(){
+        $access_token=$this->getAccessToken(true);
+        $access_token=json_decode($access_token,true);
+        $access_token=$access_token['access_token'];
+        $data=file_get_contents("php://input");
+        $url='https://api.weixin.qq.com/card/code/get?access_token='.$access_token;
+        echo $this->http_request($url,$data);
+    }
+    /*
+     * 线下核销
+     * */
+    public function cardConsume(){
+        $access_token=$this->getAccessToken(true);
+        $access_token=json_decode($access_token,true);
+        $access_token=$access_token['access_token'];
+        $data=file_get_contents("php://input");
+        $url='https://api.weixin.qq.com/card/code/consume?access_token='.$access_token;
+        echo $this->http_request($url,$data);
+    }
     /*
      * json_encode 中文变Unicode的问题
      * */
