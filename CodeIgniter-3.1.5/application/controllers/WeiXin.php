@@ -200,11 +200,6 @@ class WeiXin extends CI_Controller
     }
 
     /*
-     * 消息的转发
-     * */
-
-
-    /*
      * 自定义菜单
      * */
     public function createMenu()
@@ -304,6 +299,19 @@ class WeiXin extends CI_Controller
         $url='https://api.weixin.qq.com/card/code/consume?access_token='.$access_token;
         echo $this->http_request($url,$data);
     }
+
+    /*
+     * Code解码接口
+     * */
+    public function codeDecrypt(){
+        $access_token=$this->getAccessToken(true);
+        $access_token=json_decode($access_token,true);
+        $access_token=$access_token['access_token'];
+        $data=file_get_contents("php://input");
+        $url='https://api.weixin.qq.com/card/code/decrypt?access_token='.$access_token;
+        echo $this->http_request($url,$data);
+    }
+
     /*
      * json_encode 中文变Unicode的问题
      * */
