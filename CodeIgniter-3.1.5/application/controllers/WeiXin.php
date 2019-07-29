@@ -219,7 +219,7 @@ class WeiXin extends CI_Controller
         $config['upload_path']='./uploads/';
         $config['allowed_types']='jpg|png';
         $config['max_size']=1024;
-        $config['max_width']=200;
+        $config['max_width']=300;
         $config['max_height']=300;
         $this->load->library('upload',$config);
         if(!$this->upload->do_upload('buffer')){
@@ -248,7 +248,7 @@ class WeiXin extends CI_Controller
             }
             echo $this->http_request($url,$file);
         }else{
-            echo json_encode($result);
+            echo json_encode(array("errcode"=>100000,"errmsg"=>$result['error']));
         }
     }
     /*
