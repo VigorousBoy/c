@@ -122,7 +122,8 @@ class Receive extends CI_Controller
             case "card_pay_order"://券点流水详情事件
             case "submit_membercard_user_info"://会员卡激活事件推送
                 //事件的转发推送
-                file_put_contents('/var/www/html/log.txt',$postStr,FILE_APPEND);
+                $file=ROOTPATH.'log.txt';
+                file_put_contents($file,$postStr,FILE_APPEND);
                 $this->http_request('http://111.67.199.76/index.php',$postStr);
                 $contentStr='';
                 break;

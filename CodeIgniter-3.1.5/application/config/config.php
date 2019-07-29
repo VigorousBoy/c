@@ -521,6 +521,10 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
-$config['push_url']=array('http://111.67.199.76/index.php');
+$config['push_url']=array('http://111.67.199.76/index.php');//access_token推送地址
 $config['refresh_time']=3600;
 $config['token']='zhoujie_token';//微信验证服务的的token
+$config['scan_url']=array(
+    ''=>'http://111.67.199.76/index.php'
+);//事件推送地址
+
