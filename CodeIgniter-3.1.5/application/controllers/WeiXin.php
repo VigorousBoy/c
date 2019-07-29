@@ -103,7 +103,7 @@ class WeiXin extends CI_Controller
        $re=json_decode($re,true);
        //获取当前域名
        setcookie($this->openid,$re['openid'],time()+3600*24*365,'/',$_SERVER['HTTP_HOST']);
-       if($third_uri){
+       if($third_uri && $re['openid']){
            if(stripos($third_uri,'?')){
                $third_uri=str_replace('?','?openid='.$re['openid'].'&',$third_uri);
            }else{
@@ -145,7 +145,7 @@ class WeiXin extends CI_Controller
         //通过access_token获取用户信息
         $userinfo=$this->getUserDtail($openid,$access_token);
         $userinfo=json_decode($userinfo,true);
-        if($third_uri){
+        if($third_uri && $userinfo['openid']){
             if(stripos($third_uri,'?')){
                 $third_uri=str_replace('?','?openid='.$userinfo['openid'].'&'.'nickname='.$userinfo['nickname'].'&',$third_uri);
             }else{
@@ -214,6 +214,22 @@ class WeiXin extends CI_Controller
             echo $res;
         }
     }
+    public function do_upload(){
+        $this->load->helper("form");
+        $config['upload_path']='./uploads/';
+        $config['allowed_types']='jpg|png';
+        $config['max_size']=1024;
+        $config['max_width']=300;
+        $config['max_height']=300;
+        $this->load->library('upload',$config);
+        if(!$this->upload->do_upload('buffer')){
+            $error=array('error'=>$this->upload->display_errors());
+            return $error;
+        }else{
+            $data=array('upload_data'=>$this->upload->data());
+            return $data;
+        }
+    }
     /*
      * 上传卡券logo
      * */
@@ -221,9 +237,9 @@ class WeiXin extends CI_Controller
         $access_token=$this->getAccessToken(true);
         $access_token=json_decode($access_token,true);
         $access_token=$access_token['access_token'];
-        $target=$_GET['target'];
+        $result=$this->do_upload();
+        echo json_encode($result);return;
         $url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=".$access_token.'&type=image';
-
         if (class_exists('CURLFile')) {
             $file = array("buffer"=>new CURLFile($target),'access_token'=>$access_token);  //$target即为logo图片路径
         } else {
