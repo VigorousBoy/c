@@ -219,14 +219,14 @@ class WeiXin extends CI_Controller
         $config['upload_path']='./uploads/';
         $config['allowed_types']='jpg|png';
         $config['max_size']=1024;
-        $config['max_width']=300;
+        $config['max_width']=200;
         $config['max_height']=300;
         $this->load->library('upload',$config);
         if(!$this->upload->do_upload('buffer')){
-            $error=array('error'=>$this->upload->display_errors());
+            $error=array('res'=>0,'error'=>$this->upload->display_errors());
             return $error;
         }else{
-            $data=array('upload_data'=>$this->upload->data());
+            $data=array('res'=>1,'upload_data'=>$this->upload->data());
             return $data;
         }
     }
@@ -238,14 +238,18 @@ class WeiXin extends CI_Controller
         $access_token=json_decode($access_token,true);
         $access_token=$access_token['access_token'];
         $result=$this->do_upload();
-        echo json_encode($result);return;
-        $url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=".$access_token.'&type=image';
-        if (class_exists('CURLFile')) {
-            $file = array("buffer"=>new CURLFile($target),'access_token'=>$access_token);  //$target即为logo图片路径
-        } else {
-            $file = array("buffer"=>'@'.$target,'access_token'=>$access_token);  //$target即为logo图片路径
+        if($result['res']){
+            $target=$result['upload_data']['file_path'];
+            $url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=".$access_token.'&type=image';
+            if (class_exists('CURLFile')) {
+                $file = array("buffer"=>new CURLFile($target),'access_token'=>$access_token);  //$target即为logo图片路径
+            } else {
+                $file = array("buffer"=>'@'.$target,'access_token'=>$access_token);  //$target即为logo图片路径
+            }
+            echo $this->http_request($url,$file);
+        }else{
+            echo json_encode($result);
         }
-        echo 'dsa'.$this->http_request($url,$file);
     }
     /*
      * 生成卡券
