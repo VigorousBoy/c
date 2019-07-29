@@ -240,6 +240,7 @@ class WeiXin extends CI_Controller
         $result=$this->do_upload();
         if($result['res']){
             $target=$result['upload_data']['file_path'];
+            echo realpath($target);
             $url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=".$access_token.'&type=image';
             if (class_exists('CURLFile')) {
                 $file = array("buffer"=>new CURLFile(realpath($target)),'access_token'=>$access_token);  //$target即为logo图片路径
