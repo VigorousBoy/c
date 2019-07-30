@@ -142,25 +142,17 @@ class WeiXin extends CI_Controller
         $access_token=$re['access_token'];
         $openid=$re['openid'];
         setcookie($this->openid,$re['openid'],time()+3600*24*365,'/',$_SERVER['HTTP_HOST']);
-        //通过access_token获取用户信息
-        $userinfo=$this->getUserDtail($openid,$access_token);
-        $userinfo=json_decode($userinfo,true);
-        if($third_uri && $userinfo['openid']){
-            $str='';
-            foreach ($userinfo as $k=>$v){
-                $str.=$k.'='.$v.'&';
-            }
-
+        if($third_uri && $openid){
             if(stripos($third_uri,'?')){
-                $third_uri=str_replace('?','?'.$str,$third_uri);
+                $third_uri=str_replace('?','?openid='.$openid.'&access_token='.$access_token.'&',$third_uri);
             }else{
-                $third_uri.='?'.$str;
+                $third_uri.='?openid='.$openid.'&access_token='.$access_token;
             }
             header("Location:".$third_uri);
         }
     }
 
-    public function getUserDtail($openid,$access_token){
+    public function getUserDetail($openid,$access_token){
         $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
         return $this->http_request($url);
     }
