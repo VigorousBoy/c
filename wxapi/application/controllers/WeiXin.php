@@ -24,7 +24,7 @@ class WeiXin extends CI_Controller
             $result = json_decode($res,true);
             $expires_time = $result["expires_time"];
             $access_token = $result["access_token"];
-            $jsapi_ticket=$result["access_token"];
+            $jsapi_ticket=$result["jsapi_ticket"];
         }else{
             $expires_time =0;
             $access_token ='';
