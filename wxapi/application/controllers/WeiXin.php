@@ -53,14 +53,13 @@ class WeiXin extends CI_Controller
             if($push_url){
                 $this->load->helper('url');
                 $push_url=site_url('WeiXin/urlPush');
-                echo $push_url."\r\n";
                 $this->asyncPost($push_url);
             }
         }
         if($inner){
             return json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket));
         }else{
-            echo json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket));
+            echo json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket,'s'=>$push_url));
         }
     }
 
