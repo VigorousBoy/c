@@ -59,7 +59,7 @@ class WeiXin extends CI_Controller
         if($inner){
             return json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket));
         }else{
-            echo json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket,'s'=>$push_url));
+            echo json_encode(array('access_token'=>$access_token,'jsapi_ticket'=>$jsapi_ticket));
         }
     }
 
