@@ -122,9 +122,7 @@ class Receive extends CI_Controller
             case "card_pay_order"://券点流水详情事件
             case "submit_membercard_user_info"://会员卡激活事件推送
                 //事件的转发推送
-                $file=ROOTPATH.'log.txt';
-                file_put_contents($file,$postStr,FILE_APPEND);
-                $this->http_request('http://111.67.199.76/index.php',$postStr);
+                $this->http_request(base_url('index.php/Receive/urlPush'),$postStr);
                 $contentStr='';
                 break;
             default :
@@ -132,6 +130,20 @@ class Receive extends CI_Controller
                 break;
         }
         return $contentStr;
+    }
+
+    public function urlPush(){
+        $push_data=file_get_contents("php://input");
+        $push_url=$this->config->item('event_url');
+        if($push_url){
+            foreach ($push_url as $v){
+                $this->http_request($v,$push_data);
+                //进行推送log的记录
+                $file=ROOTPATH.'push_log.txt';
+                $str='地址：'.$v."\r\n".'时间：'.date('Y-m-d H:i:s')."\r\n".'数据：'.$push_data."\r\n";
+                file_put_contents($file,$str,FILE_APPEND);
+            }
+        }
     }
     public function http_request($url, $data = null)
     {
@@ -141,6 +153,7 @@ class Receive extends CI_Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//设置是否返回信息
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);//设置HTTP头
         curl_setopt($ch, CURLOPT_POST, 1);//设置为POST方式
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 200);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);//POST数据
         $response = curl_exec($ch);//接收返回信息
         if(curl_errno($ch)){//出错则显示错误信息
@@ -149,4 +162,5 @@ class Receive extends CI_Controller
         curl_close($ch); //关闭curl链接
         return $response;//显示返回信息
     }
+
 }
