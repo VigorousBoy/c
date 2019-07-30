@@ -52,7 +52,7 @@ class WeiXin extends CI_Controller
             $push_url=$this->config->item('push_url');
             if($push_url){
                 $this->load->helper('url');
-                $push_url=base_url('WeiXin/urlPush');
+                $push_url=site_url('WeiXin/urlPush');
                 echo $push_url."\r\n";
                 $this->asyncPost($push_url);
             }
