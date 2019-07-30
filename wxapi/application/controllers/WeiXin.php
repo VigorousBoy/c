@@ -146,10 +146,15 @@ class WeiXin extends CI_Controller
         $userinfo=$this->getUserDtail($openid,$access_token);
         $userinfo=json_decode($userinfo,true);
         if($third_uri && $userinfo['openid']){
+            $str='';
+            foreach ($userinfo as $k=>$v){
+                $str.=$k.'='.$v.'&';
+            }
+
             if(stripos($third_uri,'?')){
-                $third_uri=str_replace('?','?openid='.$userinfo['openid'].'&'.'nickname='.$userinfo['nickname'].'&',$third_uri);
+                $third_uri=str_replace('?','?'.$str,$third_uri);
             }else{
-                $third_uri.='?openid='.$userinfo['openid'].'&'.'nickname='.$userinfo['nickname'];
+                $third_uri.='?'.$str;
             }
             header("Location:".$third_uri);
         }
