@@ -122,6 +122,7 @@ class Receive extends CI_Controller
             case "card_pay_order"://券点流水详情事件
             case "submit_membercard_user_info"://会员卡激活事件推送
                 //事件的转发推送
+                $this->load->helper('url');
                 $this->http_request(base_url('index.php/Receive/urlPush'),$postStr);
                 $contentStr='';
                 break;
