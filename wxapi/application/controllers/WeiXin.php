@@ -152,9 +152,11 @@ class WeiXin extends CI_Controller
         }
     }
 
-    public function getUserDetail($openid,$access_token){
+    public function getUserDetail(){
+        $openid=$_GET['openid'];
+        $access_token=$_GET['access_token'];
         $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
-        return $this->http_request($url);
+        echo $this->http_request($url);
     }
 
     /*
