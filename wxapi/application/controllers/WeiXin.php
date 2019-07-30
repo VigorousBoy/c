@@ -52,7 +52,7 @@ class WeiXin extends CI_Controller
             $push_url=$this->config->item('push_url');
             if($push_url){
                 $this->load->helper('url');
-                $push_url=site_url('WeiXin/urlPush');
+                $push_url=base_url('WeiXin/urlPush');
                 echo $push_url."\r\n";
                 $this->asyncPost($push_url);
             }
@@ -85,7 +85,6 @@ class WeiXin extends CI_Controller
             $appId=$this->appId;
             $this->load->helper('url');
             $redirect_uri=urlencode(site_url('WeiXin/authorize1').'?s=123');
-            echo $redirect_uri;return;
             $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state='.$third_uri.'&connect_redirect=1#wechat_redirect';
             header("Location:".$url);
         }
