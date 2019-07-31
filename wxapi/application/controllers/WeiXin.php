@@ -66,7 +66,7 @@ class WeiXin extends CI_Controller
     /*
      * snsapi_base获取openid
      * */
-    public function getOpenid(){
+    public function getOpenid2(){
         $third_uri=isset($_GET['redirect_uri'])?$_GET['redirect_uri']:'';
         if($_COOKIE[$this->openid]){
             if($third_uri){
@@ -113,9 +113,9 @@ class WeiXin extends CI_Controller
        }
     }
     /*
-     *snsapi_userinfo 获取用户信息
+     *snsapi_userinfo 获取用户信息,无需关注公众号
      * */
-    public function getUserInfo(){
+    public function getOpenid(){
         //用户授权
         $third_uri=isset($_GET['redirect_uri'])?$_GET['redirect_uri']:'';
         if($third_uri){
@@ -154,7 +154,12 @@ class WeiXin extends CI_Controller
 
     public function getUserDetail(){
         $openid=$_GET['openid'];
-        $access_token=$_GET['access_token'];
+        $access_token=$_GET['access_token'];//微信授权的凭证
+        $token=$this->getAccessToken(true);
+        $token=json_decode($token,true);
+        $token=$token['access_token'];//微信基础的调用凭证
+        $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';
+        $re=$this->http_request($url);return;
         $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
         echo $this->http_request($url);
     }
