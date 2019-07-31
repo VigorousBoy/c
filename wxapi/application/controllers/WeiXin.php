@@ -159,9 +159,18 @@ class WeiXin extends CI_Controller
         $token=json_decode($token,true);
         $token=$token['access_token'];//微信基础的调用凭证
         $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';
-        echo $re=$this->http_request($url);return;
-        $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
-        echo $this->http_request($url);
+        $re=$resulet=$this->http_request($url);
+        $re=json_decode($re,true);
+        if($re['subscribe']){//已关注
+            echo $resulet;
+        }else{
+            $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
+            $re=$this->http_request($url);
+            $re=json_decode($re,true);
+            $arr=array('subscribe'=>0);
+            $re=array_merge($arr,$re);
+            echo json_encode($re);
+        }
     }
 
     /*
