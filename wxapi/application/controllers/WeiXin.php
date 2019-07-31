@@ -162,15 +162,15 @@ class WeiXin extends CI_Controller
         $re=$resulet=$this->http_request($url);
         $re=json_decode($re,true);
         if($re['subscribe']){//已关注
-            echo $resulet;
+            $arr=array('subscribe'=>1);
         }else{
-            $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
-            $re=$this->http_request($url);
-            $re=json_decode($re,true);
             $arr=array('subscribe'=>0);
-            $re=array_merge($arr,$re);
-            echo json_encode($re);
         }
+        $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
+        $re=$this->http_request($url);
+        $re=json_decode($re,true);
+        $re=array_merge($arr,$re);
+        echo json_encode($re);
     }
 
     /*
