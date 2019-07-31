@@ -387,7 +387,7 @@ class WeiXin extends CI_Controller
                 $this->http_request($v,$push_data);
                 //进行推送log的记录
                 $file=ROOTPATH.'push_log.txt';
-                $str='地址：'.$v."\r\n".'时间：'.date('Y-m-d H:i:s')."\r\n".'数据：'.$push_data."\r\n";
+                $str='地址：'.$v."\r\n".'时间：'.date('Y-m-d H:i:s')."\r\n".'数据：'.$push_data."\r\n\r\n";
                 file_put_contents($file,$str,FILE_APPEND);
             }
         }
